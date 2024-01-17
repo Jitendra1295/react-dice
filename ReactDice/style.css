@@ -1,0 +1,90 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap");
+* {
+  font-family: "Roboto", sans-serif;
+}
+body {
+  background: #20232a;
+}
+.container h1 {
+  color: rgb(97, 218, 251);
+  font-size: 5em;
+  font-weight: lighter;
+  text-align: center;
+}
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 25px;
+}
+.container > p {
+  color: #fff;
+}
+.welcome-back {
+  margin: 35px auto;
+  background: #ccc;
+  border-radius: 12px;
+  padding: 25px;
+}
+.welcome-back h2 {
+  margin: 0 0 35px;
+  text-align: center;
+  font-size: 2.5em;
+  font-weight: normal;
+}
+.welcome-back button {
+  font-size: 2em;
+  background: #20232a;
+  color: rgb(97, 218, 251);
+  border: none;
+  padding: 15px;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+  cursor: pointer;
+  display: block;
+  border-radius: 12px;
+  transition: 0.3s;
+}
+.welcome-back button:hover {
+  color: #fff;
+  background: #000;
+}
+.welcome-back > p {
+  font-size: 1.2em;
+  text-align: center;
+  margin: 0 0 25px;
+  color: #980000;
+}
+.welcome-back p.downloading {
+  font-size: 2em;
+  color: #333;
+}
+.square {
+  display: flex;
+  width: 100px;
+  height: 100px;
+  border-color: #000;
+  margin:auto;
+  background-color: red;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto;
+  gap: 10px;
+  background-color: #2196F3;
+  padding: 10px;
+}
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  grid-column:span 3;
+  font-size: 30px;
+  text-align: center;
+}
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 20px 0;
+  font-size: 30px;
+}
