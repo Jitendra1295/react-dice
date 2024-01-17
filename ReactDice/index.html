@@ -1,37 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <title>React</title>
-  </head>
-  <body>
-    <div class="container">
-      <h1>React</h1>
-      <p>
-        The flexible and amazing dice rolling library build with ReactJS.
-      </p>
-      <div class="welcome-back"></div>
-    </div>
 
-    <script
-      src="https://unpkg.com/react@16/umd/react.production.min.js"
-      crossorigin
-    ></script>
-    <script
-      src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"
-      crossorigin
-    ></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <title>React</title>
+</head>
 
-    <script type="text/babel" src="DiseComponent.js"></script>
-    <script type="text/babel" src="DiceContainer.js"></script>
-    <!-- <script type="text/babel" src="DiceContainer.js"></script> -->
-    <!-- <script type="text/babel" src="Dice.js"></script> -->
+<body>
+  <div class="container">
+    <h1>React</h1>
+    <p>
+      The flexible and amazing dice rolling library build with ReactJS.
+    </p>
+    <div class="welcome-back"></div>
+  </div>
 
-    <script type="text/babel">
-      ReactDOM.render(<DiseComponent />, document.querySelector(".welcome-back"));
-    </script>
-  </body>
+  <script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script type="text/babel">
+    class DiseComponent extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          name: 'JEET',
+          diseSize: 1,
+          diceValue: 6,
+          dieValue: [],
+        }
+      }
+      randomNumber = (min, max) => {
+        const randomGenrateNumber = Math.floor(Math.random() * (max - min) + min);
+        console.log("randomNumber ::", randomGenrateNumber);
+        return randomGenrateNumber
+      }
+
+      rollingDice = () => {
+        let dieVal = this.state.dieValue;
+        for (let i = 0; i < this.state.diseSize; i++) {
+          dieVal[i] = this.randomNumber(1, 20);
+        }
+        // setTimeout(() => {
+        this.setState({ dieValue: dieVal })
+        //   }, 2000);
+        console.log("rollingDice ::", this.state.dieValue, dieVal);
+      }
+
+      incrementDiseSize = () => {
+        this.setState({ diseSize: this.state.diseSize + 1 })
+        let dieVal = [];
+        for (let i = 0; i < this.state.diseSize; i++) {
+          dieVal.push(this.state.diceValue)
+        }
+        console.log("incrementDiseSize ::", this.state, dieVal);
+        this.setState({ dieValue: dieVal })
+      }
+      reset = () => {
+        this.setState({ diseSize: 1 })
+        console.log("reset ::", this.state);
+      }
+
+      handleChange = (e) => {
+        let value = e.target.value
+        console.log("handleChange ::", value, e.target.type);
+        if (e.target.type === 'number') {
+          value = parseInt(e.target.value, 10)
+          if (value < e.target.min) {
+            value = e.target.min
+          } else if (value > e.target.max) {
+            value = e.target.max
+          }
+        }
+        this.setState({ diceValue: value, dieValue: [] })
+      }
+
+      render() {
+        return (
+          <>
+            <h2>React Dice.</h2>
+            <div id='roll' class='roll-button'>
+              <button className='btn btn-primary' onClick={this.incrementDiseSize}>
+                Number Of Dice
+              </button>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <button className='btn btn-primary' onClick={this.reset}>
+                Reset
+              </button>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <button className='btn btn-primary' onClick={this.rollingDice}>
+                Roll All
+              </button>
+              <h4 className='text-primary'>
+                Dice Size:
+                <span
+                  style={{
+                    display: this.state.rolling ? 'none' : 'inline-block',
+                    paddingLeft: '5px',
+                  }}
+                >
+                  {this.state.diseSize}
+                </span>
+              </h4>
+            </div>
+            <div>
+              <label htmlFor='numDice'> Number Of Size</label>
+              <input
+                type='number'
+                name='numDice'
+                id='numDice'
+                className='form-control'
+                value={this.state.diceValue}
+                onChange={this.handleChange}
+                min='1'
+                max='20'
+              />
+            </div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <DiceContainer randomNumber={this.randomNumber} dieSize={this.state.diceValue} dieValue={this.state.dieValue} numberOfDise={this.state.diseSize} />
+          </>
+        )
+      }
+
+    }</script>
+  <script type="text/babel">const DiceContainer = (props) => {
+      const [dise, setDise] = React.useState([]);
+      const [diseValue, setDiseValue] = React.useState(props.dieValue)
+      let item = diseValue[0];
+      console.log("DiceContainer ::", item, props, diseValue);
+      React.useEffect(() => {
+        setDiseValue(props.dieValue)
+        createDieValue();
+      }, [item, props.numberOfDise, props.dieSize, props.dieValue, diseValue]);
+
+      const rollDie = (e, val) => {
+        console.log("rollDie ::1", props, e, val);
+        let dieVal = props.dieValue;
+        for (let i = 0; i < props.numberOfDise; i++) {
+          if (i == e) {
+            console.log("rollDie ::2", dieVal, i, e);
+            dieVal[i] = props.randomNumber(1, 20);
+          }
+        }
+        setDiseValue(dieVal)
+        createDieValue();
+        console.log("rollDie ::3", dieVal, diseValue);
+      }
+      const createDieValue = () => {
+        console.log("createDieValue ::", diseValue, props.dieSize);
+        let dice = [];
+        let containerStyle = {
+          margin: `20px`,
+          display: 'inline-block',
+        }
+        for (let i = 0; i < props.numberOfDise; i++) {
+          dice.push(
+            <div
+              className='die-container'
+              onClick={() => rollDie(i, true)}
+              style={containerStyle}
+            >
+              <div className="grid-item" > {diseValue[i] ? diseValue[i] : props.dieSize} </div>
+            </div>
+          )
+        }
+        setDise(dice)
+      }
+      // const Dice=()=>{
+      //     console.log("CoolButton ::",props);
+
+
+      return (
+        <>
+          <div className="grid-container">
+            <div>{dise}</div>
+          </div>
+        </>
+      )
+    }
+  </script>
+  <!-- <script type="text/babel" src="DiceContainer.js"></script> -->
+  <!-- <script type="text/babel" src="Dice.js"></script> -->
+
+  <script type="text/babel">
+    ReactDOM.render(<DiseComponent />, document.querySelector(".welcome-back"));
+  </script>
+</body>
+
 </html>
