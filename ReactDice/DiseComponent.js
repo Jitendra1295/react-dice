@@ -1,46 +1,45 @@
 class DiseComponent extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             name: 'JEET',
-            diseSize:1,
-            diceValue:6,
-            dieValue:[],
+            diseSize: 1,
+            diceValue: 6,
+            dieValue: [],
         }
-    } 
-
-    randomNumber=(min, max)=> {
+    }
+    randomNumber = (min, max) => {
         const randomGenrateNumber = Math.floor(Math.random() * (max - min) + min);
         console.log("randomNumber ::", randomGenrateNumber);
         return randomGenrateNumber
-    } 
+    }
 
-    rollingDice=()=>{
-        let dieVal=this.state.dieValue;
-        for(let i=0; i<this.state.diseSize;i++){
-            dieVal[i]=this.randomNumber(1,20);
+    rollingDice = () => {
+        let dieVal = this.state.dieValue;
+        for (let i = 0; i < this.state.diseSize; i++) {
+            dieVal[i] = this.randomNumber(1, 20);
         }
         // setTimeout(() => {
-            this.setState({dieValue : dieVal})
+        this.setState({ dieValue: dieVal })
         //   }, 2000);
-        console.log("rollingDice ::",this.state.dieValue,dieVal);
+        console.log("rollingDice ::", this.state.dieValue, dieVal);
     }
 
-    incrementDiseSize=()=>{
-        this.setState({diseSize : this.state.diseSize+1})
-        let dieVal=[];
-        for(let i=0; i<this.state.diseSize;i++){
+    incrementDiseSize = () => {
+        this.setState({ diseSize: this.state.diseSize + 1 })
+        let dieVal = [];
+        for (let i = 0; i < this.state.diseSize; i++) {
             dieVal.push(this.state.diceValue)
         }
-        console.log("incrementDiseSize ::",this.state,dieVal);
-        this.setState({dieValue : dieVal})
+        console.log("incrementDiseSize ::", this.state, dieVal);
+        this.setState({ dieValue: dieVal })
     }
-    reset=()=>{
-        this.setState({diseSize : 1})
-        console.log("reset ::",this.state);
+    reset = () => {
+        this.setState({ diseSize: 1 })
+        console.log("reset ::", this.state);
     }
 
-    handleChange=(e)=>{
+    handleChange = (e) => {
         let value = e.target.value
         console.log("handleChange ::", value, e.target.type);
         if (e.target.type === 'number') {
@@ -51,11 +50,11 @@ class DiseComponent extends React.Component {
                 value = e.target.max
             }
         }
-        this.setState({diceValue: value,dieValue:[]})
+        this.setState({ diceValue: value, dieValue: [] })
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <>
                 <h2>React Dice.</h2>
                 <div id='roll' class='roll-button'>
